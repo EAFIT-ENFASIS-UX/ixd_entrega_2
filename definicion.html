@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta · Actores · Persona — i-Homotic</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--green-dark:#2D6A2E;--green-light:#4CAF50;--green-pale:#E8F5E9;--orange:#E8721A;--dark:#1B2A1B;--gray-900:#212121;--gray-700:#424242;--gray-500:#757575;--gray-300:#E0E0E0;--gray-100:#F5F5F5;--white:#FFFFFF;--accent:#1B5E20;--accent2:#E65100;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--gray-900);}
+.header{background:linear-gradient(135deg,var(--dark) 0%,var(--green-dark) 100%);padding:24px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.header-left{display:flex;align-items:center;gap:18px;}
+.logo-mark{width:46px;height:46px;background:var(--green-light);border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:var(--white);position:relative;flex-shrink:0;}
+.logo-mark::after{content:'';position:absolute;top:-4px;right:-4px;width:13px;height:13px;background:var(--orange);border-radius:50%;}
+.header-title{color:var(--white);font-size:21px;font-weight:700;}.header-title span{color:var(--orange);}
+.header-subtitle{color:rgba(255,255,255,0.6);font-size:12.5px;margin-top:2px;}
+.header-badge{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:7px 16px;color:rgba(255,255,255,0.8);font-size:12px;}
+.hamburger-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);border-radius:8px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;font-size:20px;line-height:1;transition:background 0.2s;flex-shrink:0;}
+.hamburger-btn:hover{background:rgba(255,255,255,0.2);}
+.nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.nav-overlay.open{opacity:1;pointer-events:all;}
+.nav-sidebar{position:fixed;top:0;left:0;height:100vh;width:280px;background:#fff;z-index:101;transform:translateX(-100%);transition:transform 0.3s ease;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,0.15);}
+.nav-sidebar.open{transform:translateX(0);}
+.nav-sidebar-header{background:linear-gradient(135deg,#1B2A1B 0%,#2D6A2E 100%);padding:20px;display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.nav-brand{color:#fff;font-weight:700;font-size:16px;}.nav-brand span{color:#E8721A;}
+.nav-brand-sub{color:rgba(255,255,255,0.55);font-size:11px;margin-top:2px;}
+.nav-close{margin-left:auto;background:rgba(255,255,255,0.1);border:none;color:white;border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background 0.2s;flex-shrink:0;}
+.nav-close:hover{background:rgba(255,255,255,0.25);}
+.nav-links{padding:16px 12px;flex:1;overflow-y:auto;}
+.nav-section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#9E9E9E;padding:8px 12px 6px;}
+.nav-link{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;text-decoration:none;color:#424242;font-size:14px;font-weight:500;transition:background 0.15s;margin-bottom:2px;border-left:3px solid transparent;}
+.nav-link:hover{background:#E8F5E9;color:#2D6A2E;}
+.nav-link.active{background:#E8F5E9;color:#1B5E20;font-weight:700;border-left-color:#4CAF50;}
+.nav-icon{font-size:18px;width:26px;text-align:center;flex-shrink:0;}
+.nav-footer{padding:16px 20px;border-top:1px solid #E0E0E0;flex-shrink:0;}
+.nav-footer-text{font-size:11px;color:#9E9E9E;line-height:1.6;}.nav-footer-text strong{color:#616161;}
+.back-to-top{position:fixed;bottom:28px;right:28px;z-index:200;width:44px;height:44px;border-radius:12px;background:var(--green-dark);color:white;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 16px rgba(0,0,0,0.2);opacity:0;pointer-events:none;transition:opacity 0.3s,transform 0.3s;transform:translateY(12px);}
+.back-to-top.visible{opacity:1;pointer-events:all;transform:translateY(0);}
+.back-to-top:hover{background:#1B5E20;transform:translateY(-3px);}
+.ft{background:var(--dark);padding:18px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.ft-brand{color:rgba(255,255,255,0.65);font-size:12px;font-weight:600;}.ft-brand span{color:var(--orange);}
+.ft-text{color:rgba(255,255,255,0.45);font-size:11px;}
+
+
+.ph{background:linear-gradient(135deg,var(--dark) 0%,var(--green-dark) 100%);color:white;padding:60px 40px 50px;position:relative;overflow:hidden;}
+.ph::after{content:'';position:absolute;top:-60%;right:-10%;width:500px;height:500px;border-radius:50%;background:rgba(255,255,255,0.04);}
+.ph-in{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.ph-lbl{font-size:11px;letter-spacing:3px;text-transform:uppercase;opacity:0.6;margin-bottom:12px;font-weight:500;}
+.ph h1{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;line-height:1.15;margin-bottom:14px;}
+.ph-in>p{font-size:16px;opacity:0.75;max-width:720px;line-height:1.7;}
+.cnt{max-width:1100px;margin:0 auto;padding:48px 24px 20px;}
+.sep{border:none;border-top:2px dashed var(--gray-300);margin:48px 0;}
+.sec-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;}
+.sec-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:24px;line-height:1.3;}
+
+/* ═══ VALUE PROPOSITION CANVAS ═══ */
+.vpc{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:16px;align-items:stretch;}
+.vpc-left{position:relative;border:2px solid var(--gray-300);border-radius:16px;overflow:hidden;background:var(--white);}
+.vpc-right{position:relative;border:2px solid var(--gray-300);border-radius:50%;aspect-ratio:1;overflow:hidden;background:var(--white);margin-left:32px;align-self:center;}
+/* Arrows between */
+.vpc-arrows{display:none;}
+
+/* Simpler approach: just grid both sides */
+.vpc-grid{display:grid;grid-template-columns:1fr 40px 1fr;gap:0;align-items:stretch;margin-bottom:16px;}
+.vpc-square{border:2px solid var(--gray-300);border-radius:16px;overflow:hidden;background:var(--white);}
+.vpc-circle-wrap{display:flex;align-items:center;justify-content:center;}
+.vpc-circle{border:2px solid var(--gray-300);border-radius:16px;overflow:hidden;background:var(--white);}
+.vpc-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;}
+.vpc-arrow{font-size:20px;color:#C62828;font-weight:700;}
+
+.vpc-cell{padding:22px 24px;}
+.vpc-cell+.vpc-cell{border-top:1px solid var(--gray-300);}
+.vpc-icon{font-size:22px;margin-bottom:6px;}
+.vpc-h{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;}
+.vpc-h.green{color:var(--green-dark);}.vpc-h.orange{color:var(--orange);}.vpc-h.blue{color:#1565C0;}.vpc-h.red{color:#C62828;}.vpc-h.purple{color:#7B1FA2;}.vpc-h.teal{color:#00796B;}
+.vpc-text{font-size:13.5px;color:var(--gray-700);line-height:1.6;}
+.vpc-list{list-style:none;padding:0;}.vpc-list li{padding:5px 0 5px 16px;font-size:13.5px;color:var(--gray-700);line-height:1.5;position:relative;border-bottom:1px solid #f5f5f5;}
+.vpc-list li:last-child{border-bottom:none;}
+.vpc-list li::before{content:'';position:absolute;left:0;top:12px;width:6px;height:6px;border-radius:50%;}
+.vpc-list.green li::before{background:var(--green-dark);}.vpc-list.orange li::before{background:var(--orange);}.vpc-list.blue li::before{background:#1565C0;}.vpc-list.red li::before{background:#C62828;}.vpc-list.purple li::before{background:#7B1FA2;}.vpc-list.teal li::before{background:#00796B;}
+
+.vpc-label-bar{text-align:center;padding:12px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-top:1px solid var(--gray-300);}
+.vpc-label-bar.left-bar{color:var(--green-dark);background:var(--green-pale);}
+.vpc-label-bar.right-bar{color:#1565C0;background:#E3F2FD;}
+
+/* ═══ MAPA DE ACTORES ═══ */
+.actors-wrap{position:relative;margin:20px 0 16px;}
+.actors-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+.actor-card{background:var(--white);border-radius:14px;padding:22px;border:1px solid var(--gray-300);transition:transform 0.2s;}
+.actor-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.actor-emoji{font-size:26px;margin-bottom:8px;}
+.actor-name{font-size:14px;font-weight:700;margin-bottom:8px;}
+.actor-name.green{color:var(--green-dark);}.actor-name.orange{color:var(--orange);}.actor-name.blue{color:#1565C0;}.actor-name.purple{color:#7B1FA2;}.actor-name.teal{color:#00796B;}
+.actor-desc{font-size:13px;color:var(--gray-700);line-height:1.55;}
+.actor-center{grid-column:2;border:2px solid var(--green-dark);background:var(--green-pale);}
+
+/* ═══ USER PERSONA ═══ */
+.persona-card{background:var(--white);border-radius:16px;border:1px solid var(--gray-300);overflow:hidden;margin-bottom:16px;}
+.persona-hero{background:linear-gradient(135deg,var(--green-pale) 0%,#C8E6C9 100%);padding:32px;display:flex;gap:24px;flex-wrap:wrap;align-items:center;}
+.persona-avatar{width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,0.75);display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 4px 12px rgba(0,0,0,0.08);flex-shrink:0;}
+.persona-name{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--accent);margin-bottom:4px;}
+.persona-quote{font-size:14px;color:var(--gray-700);font-style:italic;max-width:500px;line-height:1.5;}
+.persona-tag{display:inline-block;font-size:11px;background:rgba(255,255,255,0.65);padding:4px 12px;border-radius:12px;color:var(--gray-500);margin-top:8px;}
+.persona-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.pg-cell{padding:24px 28px;border-top:1px solid var(--gray-300);}
+.pg-cell:nth-child(odd){border-right:1px solid var(--gray-300);}
+.pg-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;}
+.pg-label.green{color:var(--green-dark);}.pg-label.orange{color:var(--orange);}.pg-label.purple{color:#7B1FA2;}.pg-label.blue{color:#1565C0;}
+.pg-list{list-style:none;padding:0;}.pg-list li{padding:5px 0;font-size:14px;color:var(--gray-700);line-height:1.5;}
+
+.box{border-radius:12px;padding:24px 28px;margin:20px 0 0;}
+.box-yellow{background:#FFF8E1;border:1px solid #FFE082;}
+.box-red{background:#FCE4EC;border:1px solid #EF9A9A;}
+.box-green{background:#E8F5E9;border:1px solid #A5D6A7;}
+.box h4{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;}
+.box-yellow h4{color:var(--orange);}.box-red h4{color:#C62828;}.box-green h4{color:var(--green-dark);}
+.box p{font-size:14px;color:var(--gray-700);line-height:1.65;}
+
+.source-note{font-size:12px;color:var(--gray-500);text-align:center;padding:32px 24px 48px;max-width:1100px;margin:0 auto;}
+
+@media(max-width:700px){
+  .ph{padding:40px 20px 36px;}.ph h1{font-size:28px;}.cnt{padding:32px 16px 20px;}
+  .vpc-grid{grid-template-columns:1fr;}
+  .vpc-mid{flex-direction:row;padding:12px 0;}.vpc-arrow{transform:rotate(90deg);}
+  .actors-grid{grid-template-columns:1fr;}.actor-center{grid-column:1;}
+  .persona-grid{grid-template-columns:1fr;}.pg-cell:nth-child(odd){border-right:none;}
+  .header{padding:16px 20px;}
+}
+</style>
+</head>
+<body>
+<button class="back-to-top" id="backToTop" aria-label="Volver al inicio">↑</button>
+
+<div class="nav-overlay" id="navOverlay" onclick="closeSidebar()"></div>
+<aside class="nav-sidebar" id="navSidebar">
+  <div class="nav-sidebar-header">
+    <div class="logo-mark">iH</div>
+    <div><div class="nav-brand">i-Homotic<span> ·</span></div><div class="nav-brand-sub">UX Research · EAFIT 2026</div></div>
+    <button class="nav-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <div class="nav-links">
+    <div class="nav-section-label">Entrega 2 — Definición</div>
+    <a href="index.html" class="nav-link"><span class="nav-icon">🏠</span> Inicio</a>
+    <a href="modelos_mentales.html" class="nav-link"><span class="nav-icon">🧠</span> Modelos Mentales</a>
+    <a href="definicion.html" class="nav-link active"><span class="nav-icon">💎</span> Propuesta · Actores · Persona</a>
+  </div>
+  <div class="nav-footer"><div class="nav-footer-text"><strong>i-Homotic UX Research</strong><br>Entrega 2 · Medialab · EAFIT 2026</div></div>
+</aside>
+<header class="header">
+  <div class="header-left">
+    <button class="hamburger-btn" onclick="openSidebar()" aria-label="Abrir menú">☰</button>
+    <div class="logo-mark">iH</div>
+    <div><div class="header-title">i-Homotic<span> · </span>UX Research</div><div class="header-subtitle">Definición · Diseño de Interacción · EAFIT 2026</div></div>
+  </div>
+  <div class="header-badge">Entrega 2 · Medialab</div>
+</header>
+
+<div class="ph">
+  <div class="ph-in">
+    <div class="ph-lbl">i-Homotic · UX Research · Entrega 2</div>
+    <h1>Propuesta de Valor, Mapa de Actores & User Persona</h1>
+    <p>Definición estratégica para la plataforma digital de i-Homotic, basada en los hallazgos de 15 entrevistas con propietarios colombianos.</p>
+  </div>
+</div>
+
+<div class="cnt">
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- PROPUESTA DE VALOR CANVAS          -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="sec-label">Sección 1</div>
+  <div class="sec-title">Propuesta de Valor — Value Proposition Canvas</div>
+
+  <div class="vpc-grid">
+    <!-- LADO IZQUIERDO: PROPUESTA -->
+    <div class="vpc-square">
+      <div class="vpc-cell">
+        <div class="vpc-icon">🎁</div>
+        <div class="vpc-h green">Productos y servicios</div>
+        <ul class="vpc-list green">
+          <li>Plataforma digital de i-Homotic: explorar soluciones, ver proyectos reales, configurar paquetes y solicitar cotización</li>
+          <li>Sistema de automatización del hogar: hardware y software 100% colombiano</li>
+          <li>Servicio integral: diagnóstico + diseño + instalación + configuración + capacitación + soporte post-venta</li>
+          <li>Showroom funcional visitable: casa real domotizada como experiencia de demostración</li>
+          <li>Compatibilidad con ecosistemas existentes: Alexa, Google Home, Siri, sin intermediarios</li>
+        </ul>
+      </div>
+      <div class="vpc-cell">
+        <div class="vpc-icon">🌟</div>
+        <div class="vpc-h teal">Generadores de ganancias</div>
+        <ul class="vpc-list teal">
+          <li>Contenido visual verificable: portafolio de proyectos reales con videos, fotos antes/después y testimonios con nombre y ciudad</li>
+          <li>Pedagogía accesible: simuladores interactivos, quizzes y explicaciones en lenguaje cotidiano que eliminan la barrera de conocimiento</li>
+          <li>Configurador modular: el usuario arma su solución a medida y ve el rango de inversión en tiempo real</li>
+          <li>Experiencia compartible: cada caso de éxito y cotización se puede enviar por WhatsApp para facilitar la decisión familiar</li>
+          <li>Transparencia total del proceso: timeline interactivo que muestra cada etapa del servicio antes de comprometerse</li>
+        </ul>
+      </div>
+      <div class="vpc-cell">
+        <div class="vpc-icon">💊</div>
+        <div class="vpc-h blue">Aliviador de dificultades</div>
+        <ul class="vpc-list blue">
+          <li>Elimina la desconfianza digital: presencia profesional con evidencia real reemplaza la ausencia que hoy genera descarte inmediato</li>
+          <li>Rompe la parálisis por falta de evidencia: demos interactivas y testimonios contextualizados permiten "vivir" la experiencia antes de comprar</li>
+          <li>Resuelve la falta de pedagogía: el usuario entiende qué es la domótica y por dónde empezar sin necesitar conocimiento técnico previo</li>
+          <li>Respeta la gradualidad: paquetes modulares que permiten empezar por algo puntual sin presionar un sistema completo</li>
+          <li>Sin cuotas mensuales ni servidores de terceros: elimina el costo recurrente que genera resistencia en la inversión inicial</li>
+        </ul>
+      </div>
+      <div class="vpc-label-bar left-bar">Propuesta de valor — i-Homotic</div>
+    </div>
+
+    <!-- FLECHAS CENTRALES -->
+    <div class="vpc-mid">
+      <div class="vpc-arrow">→</div>
+      <div class="vpc-arrow">→</div>
+      <div class="vpc-arrow">→</div>
+    </div>
+
+    <!-- LADO DERECHO: CLIENTE -->
+    <div class="vpc-circle">
+      <div class="vpc-cell">
+        <div class="vpc-icon">📋</div>
+        <div class="vpc-h orange">Actividades del cliente</div>
+        <ul class="vpc-list orange">
+          <li>Buscar proveedores de domótica combinando voz a voz con validación digital (Google, YouTube, Instagram, ChatGPT)</li>
+          <li>Evaluar la credibilidad del proveedor revisando portafolio, videos y testimonios antes de contactar</li>
+          <li>Intentar entender qué es la domótica, qué incluye y por dónde empezar — con los dispositivos que ya tiene</li>
+          <li>Compartir la información con la familia para tomar la decisión de inversión de forma conjunta</li>
+          <li>Cotizar con 2-3 proveedores y comparar qué incluye cada servicio, buscando transparencia y servicio integral</li>
+        </ul>
+      </div>
+      <div class="vpc-cell">
+        <div class="vpc-icon">😊</div>
+        <div class="vpc-h green">Ganancias esperadas</div>
+        <ul class="vpc-list green">
+          <li>Sentir confianza y certeza antes de invertir: ver evidencia real de que el sistema funciona en casas colombianas</li>
+          <li>Entender la domótica sin tecnicismos: información clara, visual y pedagógica que le permita decidir con autonomía</li>
+          <li>Poder empezar de a poco: probar con una solución puntual y ampliar el sistema cuando cada pieza demuestre funcionar</li>
+          <li>Tener un solo proveedor integral: materiales + instalación + soporte en un mismo lugar, sin coordinar múltiples actores</li>
+          <li>Compartir fácilmente con la familia: contenido autoexplicativo que no requiera que ella narre todo el contexto</li>
+        </ul>
+      </div>
+      <div class="vpc-cell">
+        <div class="vpc-icon">😣</div>
+        <div class="vpc-h red">Dolores</div>
+        <ul class="vpc-list red">
+          <li>Proveedores sin presencia digital creíble: sin portafolio visual, sin testimonios, sin videos — genera descarte inmediato</li>
+          <li>No encontrar suficiente información para decidir: sin reseñas confiables, prefiere esperar indefinidamente</li>
+          <li>Nadie explica con claridad por dónde empezar: el mercado asume conocimiento que el usuario no tiene</li>
+          <li>Malas experiencias previas con contratistas: incumplimiento de tiempos, presupuestos desbordados, obras sin terminar</li>
+          <li>No existe servicio integral en el mercado: debe comprar materiales por un lado y buscar instalador por otro</li>
+          <li>Miedo a invertir en tecnología nueva sin respaldo suficiente: sabe que existe pero no sabe a quién acudir</li>
+        </ul>
+      </div>
+      <div class="vpc-label-bar right-bar">Segmento de cliente — El Explorador Informado</div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- MAPA DE ACTORES                    -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="sec-label">Sección 2</div>
+  <div class="sec-title">Mapa de Actores</div>
+
+  <div class="actors-wrap">
+    <div class="actors-grid">
+
+      <div class="actor-card">
+        <div class="actor-emoji">🎨</div>
+        <div class="actor-name purple">Equipo de diseño interactivo</div>
+        <div class="actor-desc">Estudiantes de Diseño Interactivo de EAFIT. Responsables de la investigación de usuario, síntesis de hallazgos, definición de modelos mentales, arquitectura de información, prototipado de la experiencia digital y validación con usuarios reales.</div>
+      </div>
+
+      <div class="actor-card actor-center">
+        <div class="actor-emoji">🏢</div>
+        <div class="actor-name green">i-Homotic / GELECT</div>
+        <div class="actor-desc">Empresa colombiana propietaria del proyecto. Fabrica hardware y software de domótica. Posee showroom funcional, proyectos residenciales completados y equipo técnico de instalación. Necesita abrir canal digital para llegar a nuevos clientes.</div>
+      </div>
+
+      <div class="actor-card">
+        <div class="actor-emoji">👥</div>
+        <div class="actor-name orange">Usuarios objetivo</div>
+        <div class="actor-desc">El Explorador Informado: propietarios de vivienda en estratos 4-5 de ciudades colombianas, 30-55 años. Profesionales que investigan digitalmente antes de contratar. Toman decisiones en familia. Adoptan tecnología de forma gradual y condicional.</div>
+      </div>
+
+      <div class="actor-card">
+        <div class="actor-emoji">🏫</div>
+        <div class="actor-name blue">Universidad EAFIT</div>
+        <div class="actor-desc">Soporte académico y metodológico. Proporciona el marco de investigación, acceso a herramientas, supervisión del profesor y contexto del Medialab. Facilita la conexión entre el equipo de diseño y el cliente real (i-Homotic).</div>
+      </div>
+
+      <div class="actor-card">
+        <div class="actor-emoji">🏗️</div>
+        <div class="actor-name teal">Equipo técnico de instalación</div>
+        <div class="actor-desc">Ingenieros y técnicos de i-Homotic que ejecutan el diagnóstico, diseño eléctrico, instalación de cableado UTP, configuración del sistema y capacitación al cliente final. Su trabajo es lo que se documenta en el portafolio visual.</div>
+      </div>
+
+      <div class="actor-card">
+        <div class="actor-emoji">👨‍👩‍👧‍👦</div>
+        <div class="actor-name orange">Círculo de influencia familiar</div>
+        <div class="actor-desc">Esposos/as que manejan el presupuesto, hijos que validan la tecnología, vecinos y familiares que alimentan el voz a voz. No son usuarios directos de la plataforma pero influyen decisivamente en la decisión de compra y son canal orgánico de recomendación.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- USER PERSONA                       -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="sec-label">Sección 3</div>
+  <div class="sec-title">User Persona</div>
+
+  <div class="persona-card">
+    <div class="persona-hero">
+      <div class="persona-avatar">👩‍💼</div>
+      <div>
+        <div class="persona-name">Eliana Restrepo</div>
+        <div class="persona-quote">"Quiero que mi casa sea más inteligente, pero necesito ver que funciona antes de invertir."</div>
+        <div class="persona-tag"><strong>Arquetipo:</strong> El Explorador Informado</div>
+      </div>
+    </div>
+    <div class="persona-grid">
+      <div class="pg-cell">
+        <div class="pg-label green">Datos demográficos</div>
+        <ul class="pg-list">
+          <li><strong>Edad:</strong> 42 años · Millennial tardía</li>
+          <li><strong>Profesión:</strong> Coordinadora administrativa · 15 años de experiencia</li>
+          <li><strong>Ubicación:</strong> Medellín, Valle de Aburrá · Apartamento propio · Estrato 4</li>
+          <li><strong>Hogar:</strong> Vive con esposo y dos hijos (universitario de 20, adolescente de 15)</li>
+        </ul>
+      </div>
+      <div class="pg-cell">
+        <div class="pg-label blue">Personalidad</div>
+        <ul class="pg-list">
+          <li><strong>Metódica:</strong> No compra nada significativo sin investigar. Cotiza con máximo 2-3 opciones, siempre validando con evidencia digital.</li>
+          <li><strong>Cautelosa:</strong> Malas experiencias con contratistas la marcaron. Exige portafolio y resultados antes de dar el paso.</li>
+          <li><strong>Aspiracional:</strong> Sueña con hogar más tecnológico. Ya tiene Alexa, Smart TV y cámaras del edificio. Avanza paso a paso.</li>
+        </ul>
+      </div>
+      <div class="pg-cell">
+        <div class="pg-label orange">Puntos de contacto</div>
+        <ul class="pg-list">
+          <li><strong>Smartphone:</strong> WhatsApp, Google, YouTube, Instagram</li>
+          <li><strong>Alexa / Google Home:</strong> Control por voz, puerta de entrada a la domótica</li>
+          <li><strong>ChatGPT:</strong> Su hijo le enseñó a usarlo para comparar marcas</li>
+          <li><strong>Homecenter / Amazon:</strong> Materiales con garantía, mano de obra por referidos</li>
+          <li><strong>Cámaras del edificio (app):</strong> Primera experiencia con seguridad inteligente</li>
+        </ul>
+      </div>
+      <div class="pg-cell">
+        <div class="pg-label purple">Comportamiento digital</div>
+        <ul class="pg-list">
+          <li>Combina voz a voz con validación digital: alguien recomienda, ella busca en Google y YouTube</li>
+          <li>Compra tecnología gradualmente: prueba, valida, expande</li>
+          <li>Decisiones en familia: ella define prioridades, esposo maneja presupuesto, hijo valida tecnología</li>
+          <li>Prioriza seguridad y funcionalidad antes que estética y lujo</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="box box-yellow">
+    <h4>El escenario — Un día de crisis</h4>
+    <p>Eliana llega de un viaje de trabajo y encuentra una fuga de agua en la cocina. Su esposo no consiguió plomero por voz a voz. Su hijo le menciona que existen sensores de humedad que alertan al celular. Eliana busca en Google "sensores inteligentes para casa Colombia". Encuentra páginas sin videos, sin portafolio, sin testimonios. Siente desconfianza inmediata. Piensa: "Si tuviera una página con videos de casas reales donde ya funcione esto, yo contrataría de una. Pero así, a ciegas, no me meto." La fuga se resuelve con el plomero del vecino. La idea de automatizar queda pendiente — esperando a que alguien le dé la confianza suficiente para dar el primer paso.</p>
+  </div>
+
+  <div class="box box-red">
+    <h4>Frustración máxima</h4>
+    <p>Encontrar un proveedor de domótica que le interesa, entrar a su página web y ver solo texto genérico, sin videos, sin portafolio de proyectos reales, sin testimonios de clientes. Genera desconfianza inmediata y abandona la página en menos de un minuto.</p>
+  </div>
+
+  <div class="box box-green">
+    <h4>El éxito</h4>
+    <p>Encuentra una página web con videos de hogares colombianos reales donde ya funciona la domótica. Ve un antes y después, entiende qué hace cada dispositivo con explicaciones cortas, lee testimonios de otros propietarios y descubre que el servicio incluye instalación, soporte y no requiere mensualidades. Se siente tranquila, informada y en control. La decisión fue familiar, gradual y respaldada por evidencia real.</p>
+  </div>
+
+</div>
+
+<div class="source-note">Fuente: 15 entrevistas semiestructuradas · Propietarios colombianos, ingresos medio-altos, 30–55 años · Universidad EAFIT · Febrero 2026</div>
+
+<footer class="ft"><div class="ft-brand">i-H<span>o</span>motic · Sustainable & Efficient</div><div class="ft-text">Entrega 2 · Medialab · EAFIT 2026</div></footer>
+<script>
+function openSidebar(){document.getElementById('navSidebar').classList.add('open');document.getElementById('navOverlay').classList.add('open')}
+function closeSidebar(){document.getElementById('navSidebar').classList.remove('open');document.getElementById('navOverlay').classList.remove('open')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar()});
+const btt=document.getElementById('backToTop');
+window.addEventListener('scroll',()=>{btt.classList.toggle('visible',window.scrollY>300)});
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>

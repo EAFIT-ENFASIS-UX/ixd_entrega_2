@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrega 2 — Definición — i-Homotic</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--green-dark:#2D6A2E;--green-light:#4CAF50;--green-pale:#E8F5E9;--orange:#E8721A;--dark:#1B2A1B;--gray-900:#212121;--gray-700:#424242;--gray-500:#757575;--gray-300:#E0E0E0;--gray-100:#F5F5F5;--white:#FFFFFF;--accent:#1B5E20;--accent2:#E65100;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--gray-100);color:var(--gray-900);}
+.header{background:linear-gradient(135deg,var(--dark) 0%,var(--green-dark) 100%);padding:24px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.header-left{display:flex;align-items:center;gap:18px;}
+.logo-mark{width:46px;height:46px;background:var(--green-light);border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:var(--white);position:relative;flex-shrink:0;}
+.logo-mark::after{content:'';position:absolute;top:-4px;right:-4px;width:13px;height:13px;background:var(--orange);border-radius:50%;}
+.header-title{color:var(--white);font-size:21px;font-weight:700;}.header-title span{color:var(--orange);}
+.header-subtitle{color:rgba(255,255,255,0.6);font-size:12.5px;margin-top:2px;}
+.header-badge{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:7px 16px;color:rgba(255,255,255,0.8);font-size:12px;}
+.hamburger-btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);border-radius:8px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;font-size:20px;line-height:1;transition:background 0.2s;flex-shrink:0;}
+.hamburger-btn:hover{background:rgba(255,255,255,0.2);}
+.nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:100;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.nav-overlay.open{opacity:1;pointer-events:all;}
+.nav-sidebar{position:fixed;top:0;left:0;height:100vh;width:280px;background:#fff;z-index:101;transform:translateX(-100%);transition:transform 0.3s ease;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,0.15);}
+.nav-sidebar.open{transform:translateX(0);}
+.nav-sidebar-header{background:linear-gradient(135deg,#1B2A1B 0%,#2D6A2E 100%);padding:20px;display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.nav-brand{color:#fff;font-weight:700;font-size:16px;}.nav-brand span{color:#E8721A;}
+.nav-brand-sub{color:rgba(255,255,255,0.55);font-size:11px;margin-top:2px;}
+.nav-close{margin-left:auto;background:rgba(255,255,255,0.1);border:none;color:white;border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background 0.2s;flex-shrink:0;}
+.nav-close:hover{background:rgba(255,255,255,0.25);}
+.nav-links{padding:16px 12px;flex:1;overflow-y:auto;}
+.nav-section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#9E9E9E;padding:8px 12px 6px;}
+.nav-link{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;text-decoration:none;color:#424242;font-size:14px;font-weight:500;transition:background 0.15s;margin-bottom:2px;border-left:3px solid transparent;}
+.nav-link:hover{background:#E8F5E9;color:#2D6A2E;}
+.nav-link.active{background:#E8F5E9;color:#1B5E20;font-weight:700;border-left-color:#4CAF50;}
+.nav-icon{font-size:18px;width:26px;text-align:center;flex-shrink:0;}
+.nav-footer{padding:16px 20px;border-top:1px solid #E0E0E0;flex-shrink:0;}
+.nav-footer-text{font-size:11px;color:#9E9E9E;line-height:1.6;}.nav-footer-text strong{color:#616161;}
+.back-to-top{position:fixed;bottom:28px;right:28px;z-index:200;width:44px;height:44px;border-radius:12px;background:var(--green-dark);color:white;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 16px rgba(0,0,0,0.2);opacity:0;pointer-events:none;transition:opacity 0.3s,transform 0.3s;transform:translateY(12px);}
+.back-to-top.visible{opacity:1;pointer-events:all;transform:translateY(0);}
+.back-to-top:hover{background:#1B5E20;transform:translateY(-3px);}
+.ft{background:var(--dark);padding:18px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.ft-brand{color:rgba(255,255,255,0.65);font-size:12px;font-weight:600;}.ft-brand span{color:var(--orange);}
+.ft-text{color:rgba(255,255,255,0.45);font-size:11px;}
+
+
+.hero{background:linear-gradient(135deg,var(--dark) 0%,var(--green-dark) 50%,var(--green-light) 100%);padding:72px 48px;color:var(--white);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:0;right:0;bottom:0;width:50%;background:radial-gradient(circle at 80% 50%,rgba(232,114,26,0.18),transparent 60%);}
+.hero-content{max-width:720px;position:relative;z-index:1;}
+.hero-tag{display:inline-block;padding:5px 14px;border-radius:20px;margin-bottom:20px;background:rgba(255,255,255,0.12);font-size:12px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:rgba(255,255,255,0.85);}
+.hero h1{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;line-height:1.15;margin-bottom:18px;}
+.hero h1 em{color:var(--orange);font-style:normal;}
+.hero p{font-size:17px;color:rgba(255,255,255,0.8);line-height:1.75;max-width:580px;margin-bottom:36px;}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap;}
+.hero-stats strong{display:block;font-size:30px;font-weight:700;color:var(--orange);line-height:1;}
+.hero-stats span{font-size:12px;color:rgba(255,255,255,0.6);margin-top:4px;display:block;}
+.cnt{max-width:1100px;margin:0 auto;padding:48px 24px 64px;}
+.sh{margin-bottom:24px;}.sh h2{font-size:22px;font-weight:700;}.sh p{font-size:14px;color:var(--gray-500);margin-top:6px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;}
+.card{background:var(--white);border-radius:18px;overflow:hidden;border:1px solid var(--gray-300);transition:transform 0.2s,box-shadow 0.2s;display:flex;flex-direction:column;}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.1);}
+.card-top{padding:28px 28px 20px;flex:1;}
+.card-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:16px;}
+.card-num{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+.card-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:10px;line-height:1.25;}
+.card-desc{font-size:14px;color:var(--gray-700);line-height:1.65;}
+.card-tags{display:flex;gap:7px;flex-wrap:wrap;padding:0 28px 20px;}
+.tag{font-size:11px;padding:4px 11px;border-radius:10px;font-weight:600;}
+.card-foot{padding:16px 28px 24px;border-top:1px solid var(--gray-300);display:flex;align-items:center;justify-content:space-between;}
+.card-meta{font-size:12px;color:var(--gray-500);}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600;transition:opacity 0.2s,transform 0.15s;color:white;}
+.btn:hover{opacity:0.88;transform:translateX(3px);}
+.c1 .card-icon{background:#E3F2FD;}.c1 .card-num{color:#1E88E5;}.c1 .tag{background:#E3F2FD;color:#1565C0;}.c1 .btn{background:#1565C0;}
+.c2 .card-icon{background:#FFF3E0;}.c2 .card-num{color:var(--orange);}.c2 .tag{background:#FFF3E0;color:#E65100;}.c2 .btn{background:var(--orange);}
+@media(max-width:720px){.hero{padding:40px 24px;}.hero h1{font-size:32px;}.header{padding:16px 20px;}.cnt{padding:32px 16px 48px;}}
+</style>
+</head>
+<body>
+<button class="back-to-top" id="backToTop" aria-label="Volver al inicio">↑</button>
+
+<div class="nav-overlay" id="navOverlay" onclick="closeSidebar()"></div>
+<aside class="nav-sidebar" id="navSidebar">
+  <div class="nav-sidebar-header">
+    <div class="logo-mark">iH</div>
+    <div><div class="nav-brand">i-Homotic<span> ·</span></div><div class="nav-brand-sub">UX Research · EAFIT 2026</div></div>
+    <button class="nav-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <div class="nav-links">
+    <div class="nav-section-label">Entrega 2 — Definición</div>
+    <a href="index.html" class="nav-link active"><span class="nav-icon">🏠</span> Inicio</a>
+<a href="modelos_mentales.html" class="nav-link"><span class="nav-icon">🧠</span> Modelos Mentales</a>
+<a href="definicion.html" class="nav-link"><span class="nav-icon">💎</span> Propuesta · Actores · Persona</a>
+
+  </div>
+  <div class="nav-footer"><div class="nav-footer-text"><strong>i-Homotic UX Research</strong><br>Entrega 2 · Medialab · EAFIT 2026</div></div>
+</aside>
+<header class="header">
+  <div class="header-left">
+    <button class="hamburger-btn" onclick="openSidebar()" aria-label="Abrir menú">☰</button>
+    <div class="logo-mark">iH</div>
+    <div><div class="header-title">i-Homotic<span> · </span>UX Research</div><div class="header-subtitle">Definición · Diseño de Interacción · EAFIT 2026</div></div>
+  </div>
+  <div class="header-badge">Entrega 2 · Medialab</div>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">Entrega 2 · Medialab · EAFIT 2026</div>
+    <h1>Definición y Conceptualización <em>i-Homotic</em></h1>
+    <p>Desde los insights de investigación hacia la definición de la experiencia digital. Modelos mentales, propuesta de valor, mapa de actores y user persona.</p>
+    <div class="hero-stats">
+      <div><strong>5</strong><span>Modelos mentales</span></div>
+      <div><strong>5</strong><span>Insights → Escenarios</span></div>
+      <div><strong>1</strong><span>Propuesta de valor</span></div>
+      <div><strong>5</strong><span>Grupos de actores</span></div>
+    </div>
+  </div>
+</section>
+<div class="cnt">
+  <div class="sh"><h2>Entregables de definición</h2><p>Selecciona un entregable para explorar el detalle completo.</p></div>
+  <div class="grid">
+    <div class="card c1">
+      <div class="card-top">
+        <div class="card-icon">🧠</div>
+        <div class="card-num">Entregable 01</div>
+        <div class="card-title">Modelos Mentales</div>
+        <p class="card-desc">5 escenarios derivados de los 5 insights. Modelo mental del usuario (problema agnóstico) y modelo conceptual del diseñador (solución interactiva).</p>
+      </div>
+      <div class="card-tags"><span class="tag">Escenarios</span><span class="tag">Modelo mental</span><span class="tag">Interacción</span></div>
+      <div class="card-foot"><span class="card-meta">5 escenarios · 5 insights</span><a href="modelos_mentales.html" class="btn">Ver entregable →</a></div>
+    </div>
+    <div class="card c2">
+      <div class="card-top">
+        <div class="card-icon">💎</div>
+        <div class="card-num">Entregable 02</div>
+        <div class="card-title">Propuesta de Valor, Mapa de Actores & User Persona</div>
+        <p class="card-desc">Canvas de propuesta de valor, ecosistema de actores del proyecto y perfil detallado de Eliana Restrepo — todo en un solo entregable integrado.</p>
+      </div>
+      <div class="card-tags"><span class="tag">Value Proposition</span><span class="tag">Stakeholders</span><span class="tag">Persona</span></div>
+      <div class="card-foot"><span class="card-meta">Basado en investigación</span><a href="definicion.html" class="btn">Ver entregable →</a></div>
+    </div>
+  </div>
+</div>
+
+<footer class="ft"><div class="ft-brand">i-H<span>o</span>motic · Sustainable & Efficient</div><div class="ft-text">Entrega 2 · Medialab · EAFIT 2026</div></footer>
+<script>
+function openSidebar(){document.getElementById('navSidebar').classList.add('open');document.getElementById('navOverlay').classList.add('open')}
+function closeSidebar(){document.getElementById('navSidebar').classList.remove('open');document.getElementById('navOverlay').classList.remove('open')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar()});
+const btt=document.getElementById('backToTop');
+window.addEventListener('scroll',()=>{btt.classList.toggle('visible',window.scrollY>300)});
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>
