@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modelos Mentales — Presentación — i-Homotic</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gd:#2D6A2E;--gl:#4CAF50;--gp:#E8F5E9;--or:#E8721A;
+  --dk:#1B2A1B;--g9:#212121;--g7:#424242;--g5:#757575;
+  --g3:#E0E0E0;--g1:#F5F5F5;--wh:#FFFFFF;
+  --pu:#3B2E5A;--pp:#EDEAF3;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory;}
+body{font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+
+/* ═══ SLIDES ═══ */
+.s{min-height:100vh;scroll-snap-align:start;position:relative;display:flex;flex-direction:column;justify-content:center;padding:64px 80px 52px;overflow:hidden;}
+@media(max-width:820px){.s{padding:30px 20px 44px;}}
+
+/* Themes */
+.dk{background:linear-gradient(135deg,var(--dk) 0%,var(--gd) 100%);color:var(--wh);}
+.lt{background:var(--g1);color:var(--g9);}
+
+/* ═══ NAV DOTS ═══ */
+#nav-dots{position:fixed;right:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:7px;z-index:300;}
+.nd{width:8px;height:8px;border-radius:50%;cursor:pointer;transition:all .3s;background:rgba(45,106,46,.2);border:1.5px solid rgba(45,106,46,.35);}
+.nd:hover,.nd.on{background:var(--gd);border-color:var(--gd);box-shadow:0 0 8px rgba(45,106,46,.5);transform:scale(1.5);}
+
+/* ═══ HAMBURGER ═══ */
+#hbtn{position:fixed;top:18px;left:18px;z-index:500;width:44px;height:44px;border:none;border-radius:10px;background:rgba(45,106,46,.88);backdrop-filter:blur(8px);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+#hbtn:hover{background:var(--gl);transform:scale(1.05);}
+
+/* ═══ OVERLAY ═══ */
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;opacity:0;pointer-events:none;transition:opacity .3s;}
+#ov.open{opacity:1;pointer-events:all;}
+
+/* ═══ SIDEBAR ═══ */
+#sb{position:fixed;top:0;left:0;height:100vh;width:290px;background:#fff;z-index:450;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,.15);}
+#sb.open{transform:translateX(0);}
+.sb-hd{background:linear-gradient(135deg,#1B2A1B 0%,#2D6A2E 100%);padding:20px;display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.lm{width:40px;height:40px;background:var(--gl);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;color:#fff;position:relative;flex-shrink:0;}
+.lm::after{content:'';position:absolute;top:-3px;right:-3px;width:11px;height:11px;background:var(--or);border-radius:50%;}
+.nb{color:#fff;font-weight:700;font-size:15px;}.nb span{color:#E8721A;}
+.nbs{color:rgba(255,255,255,.55);font-size:11px;margin-top:2px;}
+.nc{margin-left:auto;background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
+.nc:hover{background:rgba(255,255,255,.25);}
+.sb-body{padding:12px 10px;flex:1;overflow-y:auto;}
+.sb-sec{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#9E9E9E;padding:8px 12px 5px;}
+.sb-a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;text-decoration:none;color:#424242;font-size:13.5px;font-weight:500;transition:background .15s;margin-bottom:2px;border-left:3px solid transparent;cursor:pointer;}
+.sb-a:hover{background:#E8F5E9;color:#2D6A2E;}
+.sb-a.on{background:#E8F5E9;color:#1B5E20;font-weight:700;border-left-color:#4CAF50;}
+.sb-ic{font-size:16px;width:22px;text-align:center;flex-shrink:0;}
+.sb-ft{padding:14px 18px;border-top:1px solid #E0E0E0;flex-shrink:0;}
+.sb-ft p{font-size:11px;color:#9E9E9E;line-height:1.6;}
+.sb-ft strong{color:#616161;}
+
+/* ═══ TYPOGRAPHY ═══ */
+.lbl{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.lbl .pip{width:6px;height:6px;border-radius:50%;background:var(--or);}
+.dk .lbl{color:var(--gl);}
+.lt .lbl{color:var(--gd);}
+.tt{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,4.5vw,3.2rem);font-weight:700;line-height:1.12;margin-bottom:14px;}
+.tt em{font-style:italic;}
+.dk .tt em{color:var(--gl);}
+.sub{font-size:clamp(1rem,1.6vw,1.2rem);line-height:1.75;max-width:700px;}
+.dk .sub{color:rgba(255,255,255,.55);}
+
+/* ═══ COVER ═══ */
+.cv-logo{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,7vw,4.5rem);font-weight:700;line-height:1;}
+.cv-logo .ac{color:var(--gl);}
+.cv-logo .dash{color:var(--or);}
+.cv-sl{font-size:12px;letter-spacing:3.5px;text-transform:uppercase;color:rgba(232,114,26,.85);margin:6px 0 20px;font-weight:600;}
+.divn{font-family:'Playfair Display',serif;font-size:clamp(5rem,12vw,9rem);font-weight:700;position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);pointer-events:none;color:rgba(255,255,255,.025);}
+.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);opacity:.25;display:flex;flex-direction:column;align-items:center;gap:3px;animation:bob 2s infinite;}
+.scroll-hint span{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(5px)}}
+
+/* ═══ SCENARIO ═══ */
+.sc-lbl{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gd);background:var(--gp);padding:3px 10px;border-radius:6px;margin-bottom:8px;}
+.sc-title{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2.3vw,1.65rem);font-weight:700;color:var(--g9);margin-bottom:10px;}
+.iq{background:#F9F0FF;border-left:4px solid #9C27B0;border-radius:0 8px 8px 0;padding:10px 14px;font-size:12.5px;color:#4A148C;line-height:1.65;margin-bottom:12px;}
+.iq strong{color:#6A1B9A;}
+.iq-l{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7B1FA2;margin-bottom:4px;}
+
+.spaces{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:820px){.spaces{grid-template-columns:1fr;}}
+.sp{border-radius:9px;padding:14px 16px;}
+.sp-p{background:var(--gp);border:1px solid #C8DACE;}
+.sp-s{background:var(--pp);border:1px solid #D5D0E1;}
+.sp-l{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid;}
+.sp-p .sp-l{color:var(--gd);border-color:#C8DACE;}
+.sp-s .sp-l{color:var(--pu);border-color:#D5D0E1;}
+.tk{font-size:12px;line-height:1.6;color:#333;padding:5px 0 5px 14px;position:relative;}
+.tk+.tk{border-top:1px solid rgba(0,0,0,.06);}
+.tk::before{content:'';position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%;}
+.sp-p .tk::before{background:var(--gd);opacity:.45;}
+.sp-s .tk::before{background:var(--pu);opacity:.45;}
+.tn{font-weight:700;font-size:9.5px;opacity:.38;margin-right:2px;}
+.act+.act{border-top:1px solid rgba(0,0,0,.07);margin-top:7px;padding-top:7px;}
+.at-t{font-weight:700;font-size:12px;color:var(--pu);margin-bottom:2px;}
+.at-d{font-size:11.5px;line-height:1.6;color:var(--g7);}
+
+/* ═══ CLOSING SLIDE ═══ */
+.outro-logo{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:700;}
+.outro-logo .ac{color:var(--gl);}
+.outro-logo .dash{color:var(--or);}
+.outro-sl{font-size:11px;letter-spacing:3.5px;text-transform:uppercase;color:rgba(232,114,26,.75);margin:6px 0 24px;font-weight:600;}
+
+/* ═══ SLIDE FOOTER ═══ */
+.sft{position:absolute;bottom:14px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:11px;font-weight:500;letter-spacing:.4px;}
+.dk .sft{color:rgba(255,255,255,.15);}
+.lt .sft{color:rgba(0,0,0,.2);}
+@media(max-width:820px){.sft{left:20px;right:20px;}}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.an{opacity:0;animation:rise .4s ease forwards;animation-play-state:paused;}
+.d1{animation-delay:.05s}
+.d2{animation-delay:.12s}
+.d3{animation-delay:.2s}
+.d4{animation-delay:.27s}
+
+/* Background dot pattern */
+.bg-p{position:absolute;inset:0;pointer-events:none;opacity:.03;background-image:radial-gradient(circle,currentColor 1px,transparent 1px);background-size:28px 28px;}
+</style>
+</head>
+<body>
+
+<button id="hbtn" aria-label="Abrir menú">☰</button>
+<div id="ov" onclick="closeSB()"></div>
+
+<aside id="sb">
+  <div class="sb-hd">
+    <div class="lm">iH</div>
+    <div><div class="nb">i-Homotic<span> ·</span></div><div class="nbs">UX Research · EAFIT 2026</div></div>
+    <button class="nc" onclick="closeSB()">✕</button>
+  </div>
+  <div class="sb-body">
+    <div class="sb-sec">Proyecto</div>
+    <a href="index.html" class="sb-a"><span class="sb-ic">🏠</span>Inicio</a>
+    <a href="modelos_mentales.html" class="sb-a"><span class="sb-ic">🧠</span>Modelos Mentales</a>
+    <a href="modelos_mentales_pres.html" class="sb-a on"><span class="sb-ic">📽️</span>Modelos Mentales — Presentación</a>
+    <a href="definicion.html" class="sb-a"><span class="sb-ic">💎</span>Propuesta · Actores · Persona</a>
+    <div class="sb-sec">Esta presentación</div>
+    <a class="sb-a sb-slide" data-idx="0"><span class="sb-ic">✨</span>Portada</a>
+    <a class="sb-a sb-slide" data-idx="1"><span class="sb-ic">📌</span>Introducción</a>
+    <a class="sb-a sb-slide" data-idx="2"><span class="sb-ic">1️⃣</span>La confianza se googlea</a>
+    <a class="sb-a sb-slide" data-idx="3"><span class="sb-ic">2️⃣</span>Parálisis por falta de evidencia</a>
+    <a class="sb-a sb-slide" data-idx="4"><span class="sb-ic">3️⃣</span>Expansión gradual</a>
+    <a class="sb-a sb-slide" data-idx="5"><span class="sb-ic">4️⃣</span>Pedagogía como diferencial</a>
+    <a class="sb-a sb-slide" data-idx="6"><span class="sb-ic">5️⃣</span>Ver para creer</a>
+    <a class="sb-a sb-slide" data-idx="7"><span class="sb-ic">🏁</span>Cierre</a>
+  </div>
+  <div class="sb-ft"><p><strong>i-Homotic UX Research</strong><br>Entrega 2 · Medialab · EAFIT 2026</p></div>
+</aside>
+
+<nav id="nav-dots"></nav>
+
+<!-- ═══ S0: PORTADA ═══ -->
+<section class="s dk" id="s0" style="align-items:center;text-align:center;">
+  <div class="bg-p"></div>
+  <div style="position:absolute;width:480px;height:480px;top:-160px;left:-100px;border-radius:50%;background:var(--gl);opacity:.07;filter:blur(90px);pointer-events:none;"></div>
+  <div style="position:absolute;width:320px;height:320px;bottom:-90px;right:-60px;border-radius:50%;background:var(--or);opacity:.06;filter:blur(70px);pointer-events:none;"></div>
+  <p style="font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(232,114,26,.7);margin-bottom:12px;" class="an">Entrega 02 · UX Research · EAFIT 2026</p>
+  <div class="cv-logo an d1"><span class="ac">i</span><span class="dash">-</span>Homotic</div>
+  <div class="cv-sl an d2">sustainable & efficient</div>
+  <h1 style="font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2.2rem);font-weight:700;color:rgba(255,255,255,.9);margin-bottom:10px;" class="an d3">Modelos Mentales del Usuario</h1>
+  <p style="font-size:15px;color:rgba(255,255,255,.5);line-height:1.7;max-width:500px;margin:0 auto 28px;" class="an d4">5 escenarios derivados de los insights de investigación.<br>Espacio del problema · Espacio de la solución.</p>
+  <div style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;" class="an d4">
+    <span style="font-size:13.5px;color:rgba(255,255,255,.3);">Mateo Ramírez</span>
+    <span style="font-size:13.5px;color:rgba(255,255,255,.3);">Ioav Mizrachi</span>
+    <span style="font-size:13.5px;color:rgba(255,255,255,.3);">Juan Camilo Bolaños</span>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+  <div class="sft"><span>i-Homotic × EAFIT</span><span>Diseño de Interacción 2026</span></div>
+</section>
+
+<!-- ═══ S1: INTRO ═══ -->
+<section class="s dk" id="s1" style="align-items:center;text-align:center;">
+  <div class="bg-p"></div>
+  <div class="divn">MM</div>
+  <div class="lbl an" style="justify-content:center;"><span class="pip"></span>Definición · Entrega 2</div>
+  <h2 class="tt an d1">Modelos Mentales<br><em>del Usuario</em></h2>
+  <p class="sub an d2" style="margin:0 auto;text-align:center;">Arquetipo: <strong style="color:rgba(255,255,255,.8);">El Explorador Informado</strong><br>15 entrevistas semiestructuradas · Propietarios colombianos, 30–55 años, ingresos medio-altos</p>
+  <div class="sft"><span>i-Homotic × EAFIT</span><span>01 / 07</span></div>
+</section>
+
+<!-- ═══ S2: ESCENARIO 1 ═══ -->
+<section class="s lt" id="s2">
+  <div class="sc-lbl an">Escenario 1 · Insight 1</div>
+  <div class="sc-title an d1">La confianza se googlea</div>
+  <div class="iq an d2">
+    <div class="iq-l">Insight 1</div>
+    El usuario <strong>intenta</strong> encontrar un proveedor confiable para mejorar o tecnificar su hogar, <strong>pero siente</strong> desconfianza ante empresas sin presencia digital profesional, <strong>porque cree</strong> que si un proveedor no tiene videos de trabajos reales, testimonios y portafolio visible, probablemente no es profesional — o directamente no existe.
+  </div>
+  <div class="spaces an d3">
+    <div class="sp sp-p">
+      <div class="sp-l">⚠ Espacio del problema</div>
+      <div class="tk"><span class="tn">T1.</span>Buscar un proveedor para mejorar o tecnificar el hogar a partir de una recomendación o búsqueda propia</div>
+      <div class="tk"><span class="tn">T2.</span>Evaluar la presencia digital: buscar portafolio real, videos de trabajos terminados y testimonios verificables</div>
+      <div class="tk"><span class="tn">T3.</span>Desconfiar y descartar si la presencia digital no muestra evidencia real — asumir que no es profesional</div>
+    </div>
+    <div class="sp sp-s">
+      <div class="sp-l">💡 Espacio de la solución</div>
+      <div class="act">
+        <div class="at-t">A1 — Galería interactiva de proyectos reales</div>
+        <div class="at-d">Galería navegable con filtros por vivienda, ciudad y solución. Carrusel antes/después con slider deslizable, video corto de recorrido y testimonio con foto y ciudad del cliente.</div>
+      </div>
+      <div class="act">
+        <div class="at-t">A2 — Recorrido virtual 360° por el showroom</div>
+        <div class="at-d">Recorrido virtual por la casa-showroom funcional. Al tocar hotspots sobre cada dispositivo se despliega una tarjeta explicativa. Audio-guía corta opcional. Compartible por WhatsApp.</div>
+      </div>
+    </div>
+  </div>
+  <div class="sft"><span>Modelos Mentales</span><span>02 / 07</span></div>
+</section>
+
+<!-- ═══ S3: ESCENARIO 2 ═══ -->
+<section class="s lt" id="s3">
+  <div class="sc-lbl an">Escenario 2 · Insight 2</div>
+  <div class="sc-title an d1">Parálisis por falta de evidencia</div>
+  <div class="iq an d2">
+    <div class="iq-l">Insight 2</div>
+    El usuario <strong>intenta</strong> incorporar tecnología inteligente a su hogar, <strong>pero siente</strong> incertidumbre cuando no encuentra suficientes reseñas o experiencias verificables, <strong>porque cree</strong> que sin validación de terceros está arriesgando su dinero — y prefiere esperar a que "salga algo más sólido" antes que arriesgarse.
+  </div>
+  <div class="spaces an d3">
+    <div class="sp sp-p">
+      <div class="sp-l">⚠ Espacio del problema</div>
+      <div class="tk"><span class="tn">T1.</span>Encontrar un proveedor de interés pero necesitar validación adicional antes de decidir</div>
+      <div class="tk"><span class="tn">T2.</span>Buscar reseñas de terceros, experiencias de otros clientes y opiniones verificables</div>
+      <div class="tk"><span class="tn">T3.</span>No encontrar suficiente validación externa y preferir esperar antes que arriesgar la inversión</div>
+    </div>
+    <div class="sp sp-s">
+      <div class="sp-l">💡 Espacio de la solución</div>
+      <div class="act">
+        <div class="at-t">A1 — Testimonios interactivos con contexto verificable</div>
+        <div class="at-d">Reseñas navegables con perfil del cliente, fotos del proyecto real e indicador de tiempo ("hace 8 meses — sin fallas"). El usuario filtra por casos similares al suyo. Formato tarjeta expandible.</div>
+      </div>
+      <div class="act">
+        <div class="at-t">A2 — Demo "Simula la experiencia"</div>
+        <div class="at-d">Simulación donde el usuario experimenta el sistema como si ya lo tuviera: toca "simular alerta de fuga" y ve paso a paso cómo el sensor detecta, envía la señal y genera la notificación en el celular.</div>
+      </div>
+    </div>
+  </div>
+  <div class="sft"><span>Modelos Mentales</span><span>03 / 07</span></div>
+</section>
+
+<!-- ═══ S4: ESCENARIO 3 ═══ -->
+<section class="s lt" id="s4">
+  <div class="sc-lbl an">Escenario 3 · Insight 3</div>
+  <div class="sc-title an d1">Expansión gradual, confianza condicional</div>
+  <div class="iq an d2">
+    <div class="iq-l">Insight 3</div>
+    El usuario <strong>intenta</strong> automatizar su hogar paso a paso, <strong>pero siente</strong> que necesita probar cada pieza antes de ampliar el sistema, <strong>porque cree</strong> que un ecosistema tecnológico solo es confiable cuando cada componente ha demostrado funcionar en su contexto real — no en un video publicitario.
+  </div>
+  <div class="spaces an d3">
+    <div class="sp sp-p">
+      <div class="sp-l">⚠ Espacio del problema</div>
+      <div class="tk"><span class="tn">T1.</span>Querer automatizar su hogar pero hacerlo paso a paso, probando cada pieza antes de agregar la siguiente</div>
+      <div class="tk"><span class="tn">T2.</span>Evaluar si cada componente funciona en su contexto real — en su casa, con sus condiciones particulares</div>
+      <div class="tk"><span class="tn">T3.</span>No ampliar el sistema hasta estar seguro de que lo anterior funciona; desconfiar de lo solo visto en publicidad</div>
+    </div>
+    <div class="sp sp-s">
+      <div class="sp-l">💡 Espacio de la solución</div>
+      <div class="act">
+        <div class="at-t">A1 — Configurador modular "Arma tu solución"</div>
+        <div class="at-d">Herramienta interactiva donde el usuario selecciona su necesidad principal, ve componentes con íconos simples, agrega o quita elementos y ve en tiempo real cómo cambia el rango de inversión.</div>
+      </div>
+      <div class="act">
+        <div class="at-t">A2 — Mapa del ecosistema "Haz crecer tu sistema"</div>
+        <div class="at-d">Visualización del ecosistema i-Homotic. El usuario selecciona lo que ya tiene y el mapa resalta ampliaciones compatibles. Incluye trayectorias reales: "Empezó con seguridad → sumó iluminación a los 6 meses".</div>
+      </div>
+    </div>
+  </div>
+  <div class="sft"><span>Modelos Mentales</span><span>04 / 07</span></div>
+</section>
+
+<!-- ═══ S5: ESCENARIO 4 ═══ -->
+<section class="s lt" id="s5">
+  <div class="sc-lbl an">Escenario 4 · Insight 4</div>
+  <div class="sc-title an d1">Pedagogía como diferencial de venta</div>
+  <div class="iq an d2">
+    <div class="iq-l">Insight 4</div>
+    El usuario <strong>intenta</strong> entender qué es la domótica y cómo podría funcionar en su hogar, <strong>pero siente</strong> que nadie le explica con claridad por dónde empezar, <strong>porque cree</strong> que el mercado asume que todos saben lo mismo — y esa falta de pedagogía lo aleja de dar el primer paso, incluso cuando el interés ya existe.
+  </div>
+  <div class="spaces an d3">
+    <div class="sp sp-p">
+      <div class="sp-l">⚠ Espacio del problema</div>
+      <div class="tk"><span class="tn">T1.</span>Tener interés real en la domótica pero no entender qué es exactamente ni cómo podría funcionar en su hogar</div>
+      <div class="tk"><span class="tn">T2.</span>Sentir que nadie le explica por dónde empezar — la información disponible asume conocimiento previo</div>
+      <div class="tk"><span class="tn">T3.</span>Alejarse de dar el primer paso no por falta de interés sino por barreras informativas</div>
+    </div>
+    <div class="sp sp-s">
+      <div class="sp-l">💡 Espacio de la solución</div>
+      <div class="act">
+        <div class="at-t">A1 — Simulador "Descubre tu casa inteligente"</div>
+        <div class="at-d">Plano interactivo de un hogar donde el usuario toca cada espacio (sala, cocina, habitación, entrada) y ve posibilidades con animaciones. Micro-explicaciones en lenguaje cotidiano, sin tecnicismos.</div>
+      </div>
+      <div class="act">
+        <div class="at-t">A2 — Quiz conversacional "¿Por dónde empiezo?"</div>
+        <div class="at-d">4-5 preguntas simples con íconos sobre tipo de vivienda, prioridades y dispositivos actuales. Genera una recomendación personalizada con paquete de entrada, rango de inversión y botón de asesoría.</div>
+      </div>
+    </div>
+  </div>
+  <div class="sft"><span>Modelos Mentales</span><span>05 / 07</span></div>
+</section>
+
+<!-- ═══ S6: ESCENARIO 5 ═══ -->
+<section class="s lt" id="s6">
+  <div class="sc-lbl an">Escenario 5 · Insight 5</div>
+  <div class="sc-title an d1">Ver para creer, sentir para comprar</div>
+  <div class="iq an d2">
+    <div class="iq-l">Insight 5</div>
+    El usuario <strong>intenta</strong> tomar una decisión de inversión para su hogar, <strong>pero siente</strong> que sin una experiencia visual concreta — antes/después, videos del proceso, proyectos terminados — está comprando una promesa vacía, <strong>porque cree</strong> que el contenido visual real es la prueba más honesta de lo que un proveedor puede hacer.
+  </div>
+  <div class="spaces an d3">
+    <div class="sp sp-p">
+      <div class="sp-l">⚠ Espacio del problema</div>
+      <div class="tk"><span class="tn">T1.</span>Intentar tomar una decisión de inversión pero necesitar ver algo concreto antes de comprometerse</div>
+      <div class="tk"><span class="tn">T2.</span>Buscar experiencias visuales reales — antes/después, videos del proceso, proyectos terminados</div>
+      <div class="tk"><span class="tn">T3.</span>Sentir que sin evidencia visual está comprando una promesa vacía</div>
+    </div>
+    <div class="sp sp-s">
+      <div class="sp-l">💡 Espacio de la solución</div>
+      <div class="act">
+        <div class="at-t">A1 — Casos de éxito con infografía interactiva compartible</div>
+        <div class="at-d">Cada proyecto tiene plano interactivo con zonas tocables, video de recorrido, slider antes/después, rango de inversión y testimonio. Autoexplicativa al compartir por WhatsApp — la familia entera puede entenderla.</div>
+      </div>
+      <div class="act">
+        <div class="at-t">A2 — Calculadora interactiva de beneficios</div>
+        <div class="at-d">El usuario configura sliders (tipo de vivienda, habitaciones, consumo estimado) y ve ahorro energético mensual y comparación con/sin domótica a 1, 3 y 5 años. Resultado descargable en PDF o compartible por WhatsApp.</div>
+      </div>
+    </div>
+  </div>
+  <div class="sft"><span>Modelos Mentales</span><span>06 / 07</span></div>
+</section>
+
+<!-- ═══ S7: CIERRE ═══ -->
+<section class="s dk" id="s7" style="align-items:center;text-align:center;">
+  <div class="bg-p"></div>
+  <div style="position:absolute;width:400px;height:400px;top:-100px;right:-60px;border-radius:50%;background:var(--gl);opacity:.08;filter:blur(80px);pointer-events:none;"></div>
+  <div class="lbl an" style="justify-content:center;"><span class="pip"></span>Definición · Entrega 2</div>
+  <div class="outro-logo an d1"><span class="ac">i</span><span class="dash">-</span>Homotic</div>
+  <div class="outro-sl an d2">sustainable & efficient</div>
+  <p style="font-size:clamp(1rem,1.8vw,1.2rem);color:rgba(255,255,255,.5);line-height:1.75;max-width:560px;margin:0 auto 32px;" class="an d3">5 modelos mentales · 5 insights · 10 propuestas de interacción.<br>Todo construido desde la investigación con usuarios reales.</p>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;" class="an d4">
+    <a href="modelos_mentales.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:9px;text-decoration:none;background:rgba(76,175,80,.15);border:1px solid rgba(76,175,80,.25);color:rgba(255,255,255,.75);font-size:13.5px;font-weight:600;transition:all .2s;" onmouseover="this.style.background='rgba(76,175,80,.25)'" onmouseout="this.style.background='rgba(76,175,80,.15)'">🧠 Ver documento completo</a>
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:9px;text-decoration:none;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55);font-size:13.5px;font-weight:600;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.12)'" onmouseout="this.style.background='rgba(255,255,255,.07)'">🏠 Volver al inicio</a>
+  </div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:32px;" class="an d4">
+    <span style="font-size:12.5px;color:rgba(255,255,255,.25);">Mateo Ramírez</span>
+    <span style="font-size:12.5px;color:rgba(255,255,255,.25);">Ioav Mizrachi</span>
+    <span style="font-size:12.5px;color:rgba(255,255,255,.25);">Juan Camilo Bolaños</span>
+  </div>
+  <div class="sft"><span>i-Homotic × EAFIT</span><span>07 / 07</span></div>
+</section>
+
+<script>
+const slides = Array.from(document.querySelectorAll('.s'));
+const dotsEl = document.getElementById('nav-dots');
+const sbSlideLinks = document.querySelectorAll('.sb-slide');
+
+// Build nav dots
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'nd';
+  d.addEventListener('click', () => slides[i].scrollIntoView({behavior:'smooth'}));
+  dotsEl.appendChild(d);
+});
+const dots = Array.from(dotsEl.querySelectorAll('.nd'));
+
+// Intersection Observer — active state tracking
+const activeObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const i = slides.indexOf(e.target);
+      dots.forEach((d, j) => d.classList.toggle('on', i === j));
+      sbSlideLinks.forEach((a, j) => {
+        a.classList.toggle('on', parseInt(a.dataset.idx) === i);
+      });
+    }
+  });
+}, {threshold: 0.5});
+
+// Intersection Observer — trigger animations
+const animObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.an').forEach(el => {
+        el.style.animationPlayState = 'running';
+      });
+    }
+  });
+}, {threshold: 0.3});
+
+slides.forEach(s => { activeObs.observe(s); animObs.observe(s); });
+
+// Sidebar
+function openSB() {
+  document.getElementById('sb').classList.add('open');
+  document.getElementById('ov').classList.add('open');
+}
+function closeSB() {
+  document.getElementById('sb').classList.remove('open');
+  document.getElementById('ov').classList.remove('open');
+}
+document.getElementById('hbtn').addEventListener('click', openSB);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSB(); });
+
+// Sidebar slide links
+sbSlideLinks.forEach(a => {
+  a.addEventListener('click', () => {
+    const idx = parseInt(a.dataset.idx);
+    slides[idx].scrollIntoView({behavior:'smooth'});
+    closeSB();
+  });
+});
+</script>
+</body>
+</html>
